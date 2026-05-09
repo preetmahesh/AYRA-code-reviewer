@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ayra</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/one-dark.min.css"/>
+</head>
+<body>
+
+  <!-- INTRO SCREEN -->
+  <div id="intro">
+    <div class="intro-content">
+      <div class="ayra-logo">
+        <span class="ayra-text">Ayra</span>
+        <div class="ayra-glow"></div>
+      </div>
+      <p class="ayra-tagline">Your AI Code Companion</p>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="app" class="hidden">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="logo-small">Ayra</span>
+      </div>
+      <div class="topbar-right">
+        <div class="mode-toggle">
+          <button class="mode-btn active" data-mode="general">General</button>
+          <button class="mode-btn" data-mode="mentor">Mentor</button>
+          <button class="mode-btn" data-mode="roast">Roast</button>
+        </div>
+        <button id="theme-toggle" class="icon-btn">☀️</button>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="workspace">
+
+      <!-- LEFT: CODE EDITOR -->
+      <section class="editor-panel">
+        <div class="panel-header">
+          <span class="panel-title">Code</span>
+          <select id="language-select">
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="typescript">TypeScript</option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
+            <option value="java">Java</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+            <option value="php">PHP</option>
+            <option value="ruby">Ruby</option>
+            <option value="swift">Swift</option>
+            <option value="kotlin">Kotlin</option>
+          </select>
+          <button id="clear-code" class="small-btn">Clear</button>
+        </div>
+        <div id="editor-container"></div>
+      </section>
+
+      <!-- RIGHT: CHAT PANEL -->
+      <section class="chat-panel" id="chat-panel">
+        <div class="panel-header">
+          <span class="panel-title">Ayra</span>
+          <button id="collapse-chat" class="icon-btn">→</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="ayra-welcome">
+            <p>Hey. Paste your code in the query bar below and tell me what you need.</p>
+          </div>
+        </div>
+      </section>
+      <div class="chat-collapsed-tab hidden" id="expand-tab">←</div>
+    </main>
+
+    <!-- BOTTOM QUERY BAR -->
+    <footer class="query-bar">
+      <div class="query-inner">
+        <textarea id="query-input" placeholder="Ask Ayra anything about your code..." rows="1"></textarea>
+        <button id="send-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- CODEMIRROR -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/clike/clike.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/go/go.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/rust/rust.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/ruby/ruby.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/php/php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
