@@ -30,12 +30,18 @@
       <div class="topbar-left">
         <span class="logo-small">Ayra</span>
       </div>
-      <div class="topbar-right">
+      <div class="topbar-center">
         <div class="mode-toggle">
           <button class="mode-btn active" data-mode="general">General</button>
           <button class="mode-btn" data-mode="mentor">Mentor</button>
           <button class="mode-btn" data-mode="roast">Roast</button>
         </div>
+      </div>
+      <div class="topbar-right">
+        <!-- Collab button -->
+        <button id="collab-btn" class="icon-btn collab-icon" title="Real-time Collaboration">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>
+        </button>
         <button id="theme-toggle" class="icon-btn">☀️</button>
       </div>
     </header>
@@ -61,9 +67,47 @@
             <option value="swift">Swift</option>
             <option value="kotlin">Kotlin</option>
           </select>
+          <button id="run-btn" class="small-btn run-btn" title="Run Code (Ctrl+Enter)">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Run
+          </button>
+          <button id="diff-btn" class="small-btn diff-btn hidden" title="Toggle Diff View">Diff</button>
           <button id="clear-code" class="small-btn">Clear</button>
+          <!-- Collab indicator -->
+          <div id="collab-users" class="collab-users hidden"></div>
         </div>
-        <div id="editor-container"></div>
+        <div class="editor-area">
+          <div id="editor-container"></div>
+          <!-- Diff overlay -->
+          <div id="diff-panel" class="diff-panel hidden">
+            <div class="diff-header">
+              <span class="diff-title">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+                Diff View 
+              </span>
+              <div class="diff-stats" id="diff-stats"></div>
+              <button id="run-fixed-btn" class="small-btn run-fixed-btn" title="Run the fixed code without applying">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Run Fixed
+              </button>
+              <button id="apply-diff-btn" class="small-btn apply-btn">Apply Fix</button>
+              <button id="close-diff-btn" class="small-btn">✕ Close</button>
+            </div>
+            <div class="diff-content" id="diff-content"></div>
+          </div>
+        </div>
+        <!-- Output panel -->
+        <div id="output-panel" class="output-panel hidden">
+          <div class="output-header">
+            <span class="output-title">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              Output
+            </span>
+            <span id="output-exit" class="output-exit-badge"></span>
+            <button id="close-output" class="small-btn">✕</button>
+          </div>
+          <div id="output-content" class="output-content"></div>
+        </div>
       </section>
 
       <!-- RIGHT: CHAT PANEL -->
@@ -74,7 +118,7 @@
         </div>
         <div class="chat-messages" id="chat-messages">
           <div class="ayra-welcome">
-            <p>Hey. Paste your code in the query bar below and tell me what you need.</p>
+            <p>Hey. Paste your code and tell me what you need. Hit <kbd>Run</kbd> to execute, or I'll auto-generate a diff when I fix your code.</p>
           </div>
         </div>
       </section>
@@ -84,7 +128,7 @@
     <!-- BOTTOM QUERY BAR -->
     <footer class="query-bar">
       <div class="query-inner">
-        <textarea id="query-input" placeholder="Ask Ayra anything about your code..." rows="1"></textarea>
+        <textarea id="query-input" placeholder="Ask Ayra anything about your code... (Enter to send)" rows="1"></textarea>
         <button id="send-btn">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -94,6 +138,34 @@
       </div>
     </footer>
 
+  </div>
+
+  <!-- COLLAB MODAL -->
+  <div id="collab-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">Real-Time Collaboration</span>
+        <button id="collab-modal-close" class="icon-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <label>Your Name</label>
+          <input type="text" id="collab-username" placeholder="e.g. Zara" maxlength="20"/>
+        </div>
+        <div class="modal-section">
+          <label>Room Code</label>
+          <div class="room-input-row">
+            <input type="text" id="collab-room" placeholder="e.g. cs101-project" maxlength="30"/>
+            <button id="gen-room-btn" class="small-btn">Generate</button>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button id="join-room-btn" class="primary-btn">Join Room</button>
+          <button id="leave-room-btn" class="small-btn hidden">Leave Room</button>
+        </div>
+        <div id="collab-status" class="collab-status"></div>
+      </div>
+    </div>
   </div>
 
   <!-- CODEMIRROR -->
